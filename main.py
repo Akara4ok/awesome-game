@@ -3,6 +3,7 @@ from Unit.NPC.Enemy.SmartEnemy import SmartEnemy
 from Unit.NPC.Enemy.RandEnemy import RandEnemy
 from Unit.Player.Player import Player
 from random import randint
+import utils.utils as utils
 
 def genEnemies(number, type):
     correctNumber = 0
@@ -23,15 +24,15 @@ def genEnemies(number, type):
 player = Player('p', 4, 19)
 labyrynth.addUnit(player, "Player")
 
-randNumber = 2
-smartNumber = 1
+randNumber = 0
+smartNumber = 2
 
 genEnemies(randNumber, type="Random")
 genEnemies(smartNumber, type="Smart")
 
 
-labyrynth.init_screen("auto")
+labyrynth.init_screen("key")
 while(not labyrynth.isGameOver()):
-    labyrynth.update("auto")
+    labyrynth.update("key")
 
 print("Winner: ", labyrynth.getWinner())

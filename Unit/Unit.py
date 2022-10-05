@@ -56,6 +56,8 @@ class Unit(metaclass=abc.ABCMeta):
                     cost[new_y][new_x] = cost[y][x] + kef
                     from_path[new_y][new_x] = (y, x)
                     vertex.put((cost[new_y][new_x] + labyrynth.heuristic(y, x, y_end, x_end), (new_y, new_x)))
+        
+        return (None, None)
     
     def greedy_path(self, y_end, x_end):
         (y, x) = (self.y, self.x)
