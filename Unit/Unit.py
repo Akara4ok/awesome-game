@@ -26,8 +26,8 @@ class Unit(metaclass=abc.ABCMeta):
         return random.choice(labyrynth.getNeighbours(self.y, self.x))
 
     def astar(self, y_end, x_end):
-        lin_kef = 2
-        diag_kef = 3
+        lin_kef = 1
+        diag_kef = 1
 
         x_start = self.x
         y_start = self.y

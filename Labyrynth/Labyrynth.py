@@ -36,7 +36,7 @@ class Labyrynth:
 
 
     def printMap(self, map):
-        #os.system('cls' if os.name == 'nt' else 'clear')
+        # os.system('cls' if os.name == 'nt' else 'clear')
         for row in map:
             for element in row:
                 if(element in self.enemySkins):

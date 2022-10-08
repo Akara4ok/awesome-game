@@ -14,6 +14,7 @@ class Player(Unit):
     def __init__(self, skin, y, x):
         super().__init__(skin, y, x)
         self.allExpands = 0
+        self.isDebug = False
         
     
     def update(self):
@@ -43,8 +44,60 @@ class Player(Unit):
             value = 10000
             for child in self.expandChild(node, "Enemy"):
                 minimax_heurastic = self.minimax(child, depth - 1, 'Max')[1]
-                #self.evaluateFunction(child, True)
-                #print(minimax_heurastic)
+                # self.evaluateFunction(child, True)
+                # print(minimax_heurastic)
+                if (value > minimax_heurastic):
+                    value = minimax_heurastic
+                    best_player = child.labyrynth.players[0]
+            return (best_player, value)
+
+    
+    def minimax(self, node, depth, type):
+        self.allExpands += 1
+        if depth == 0 or self.isTerminalNode(node):
+            return (None, self.evaluateFunction(node))
+        best_player = 0
+        if (type == "Max"):
+            value = -1
+            for index, child in enumerate(self.expandChild(node, "Player")):
+                minimax_heurastic = self.minimax(child, depth - 1, 'Min')[1]
+                if (value < minimax_heurastic):
+                    value = minimax_heurastic
+                    best_player = child.labyrynth.players[0]
+            return (best_player, value)
+
+        elif (type == "Min"):
+            value = 10000
+            for child in self.expandChild(node, "Enemy"):
+                minimax_heurastic = self.minimax(child, depth - 1, 'Max')[1]
+                if(self.isDebug):
+                    self.evaluateFunction(child, True)
+                    print(minimax_heurastic)
+                if (value > minimax_heurastic):
+                    value = minimax_heurastic
+                    best_player = child.labyrynth.players[0]
+            return (best_player, value)
+
+    def alphabeta(self, node, depth, type):
+        self.allExpands += 1
+        if depth == 0 or self.isTerminalNode(node):
+            return (None, self.evaluateFunction(node))
+        best_player = 0
+        if (type == "Max"):
+            value = -1
+            for index, child in enumerate(self.expandChild(node, "Player")):
+                minimax_heurastic = self.minimax(child, depth - 1, 'Min')[1]
+                if (value < minimax_heurastic):
+                    value = minimax_heurastic
+                    best_player = child.labyrynth.players[0]
+            return (best_player, value)
+
+        elif (type == "Min"):
+            value = 10000
+            for child in self.expandChild(node, "Enemy"):
+                minimax_heurastic = self.minimax(child, depth - 1, 'Max')[1]
+                self.evaluateFunction(child, True)
+                print(minimax_heurastic)
                 if (value > minimax_heurastic):
                     value = minimax_heurastic
                     best_player = child.labyrynth.players[0]
@@ -64,7 +117,9 @@ class Player(Unit):
         if(type == "Enemy"):
             player = node.labyrynth.players[0]
             neighbours = node.labyrynth.getNeighbours(player.y, player.x)
-            #print(neighbours)
+            if(self.isDebug):   
+                print((player.y, player.x))
+                print(neighbours)
             for neighbour in neighbours:
                 player.y = neighbour[0]
                 player.x = neighbour[1]
@@ -100,14 +155,14 @@ class Player(Unit):
             (distance, _) = player.astar(enemy.y, enemy.x)
             if (not distance):
                 continue
-            if distance <= 3:
+            if distance <= 1:
                 if (distance != 0):
                     result += (1 / distance) * meele_kef
                 else:
                     result += 10000
                 if(isDebug):
                     print("melee", distance, enemy.y, enemy.x, end=' ')
-            elif distance > 3 and distance <= 5:
+            elif distance > 1 and distance <= 4:
                 result += (1 / distance) * medium_kef
                 if(isDebug):
                     print("medium", distance, enemy.y, enemy.x, end=' ')

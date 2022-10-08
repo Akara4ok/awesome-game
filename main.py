@@ -1,3 +1,4 @@
+from time import time
 from Labyrynth.Labyrynth import labyrynth
 from Unit.NPC.Enemy.SmartEnemy import SmartEnemy
 from Unit.NPC.Enemy.RandEnemy import RandEnemy
@@ -21,18 +22,24 @@ def genEnemies(number, type):
 
 
 
-player = Player('p', 4, 19)
+player = Player('p', 7, 19)
 labyrynth.addUnit(player, "Player")
+smart = SmartEnemy('e', 2, 12)
+labyrynth.addUnit(smart)
+smart = SmartEnemy('e', 2, 13)
+labyrynth.addUnit(smart) 
 
-randNumber = 0
-smartNumber = 2
+# randNumber = 0
+# smartNumber = 2
 
-genEnemies(randNumber, type="Random")
-genEnemies(smartNumber, type="Smart")
+# genEnemies(randNumber, type="Random")
+# genEnemies(smartNumber, type="Smart")
 
-
+start = time()
 labyrynth.init_screen("key")
 while(not labyrynth.isGameOver()):
     labyrynth.update("key")
+end = time()
 
 print("Winner: ", labyrynth.getWinner())
+print("Time: ", end - start)
